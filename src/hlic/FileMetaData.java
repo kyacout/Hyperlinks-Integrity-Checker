@@ -15,4 +15,9 @@ public class FileMetaData {
 	public void increaseOcc(){
 		this.numberOfOcc++;
 	}
+	
+	public void setLinksValid(boolean v){
+		this.linksVaild = v;
+	}
+
 }
