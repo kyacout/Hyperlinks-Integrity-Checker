@@ -5,12 +5,12 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class Engine {
-	Queue<Node> q =  new LinkedList<Node>();
-	Engine singleton = null;
+	private Queue<Node> q =  new LinkedList<Node>();
+	private static Engine singleton = null;
 	
 //	HashMap<String, V>
 	
-	public Engine getInstance(){
+	public synchronized static Engine getInstance(){
 		if(singleton == null)
 			return singleton = new Engine();
 		else
@@ -24,5 +24,8 @@ public class Engine {
 	public void addChilderns(LinkedList<String> childern, int depth, String parent, boolean v){
 		
 	}
-
+	
+	public boolean nodeAvailable() {
+		return q.isEmpty();
+	}
 }
