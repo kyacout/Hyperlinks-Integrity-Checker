@@ -5,12 +5,11 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class Engine {
-	Queue<Node> q =  new LinkedList<Node>();
-	Engine singleton = null;
+	private Queue<Node> q =  new LinkedList<Node>();
+	private static Engine singleton = null;
+	private HashMap<String, FileMetaData> h = new HashMap<String, FileMetaData>();
 	
-//	HashMap<String, V>
-	
-	public Engine getInstance(){
+	static Engine getInstance(){
 		if(singleton == null)
 			return singleton = new Engine();
 		else
@@ -22,6 +21,16 @@ public class Engine {
 	}
 	
 	public void addChilderns(LinkedList<String> childern, int depth, String parent, boolean v){
+		
+		for (String curr : childern) {
+			q.add(new Node(depth, curr, parent));
+		}
+		
+		if(!h.containsKey(parent)){
+			h.put(parent, new FileMetaData(v));
+		}else{
+			h.get(parent).increaseOcc();
+		}
 		
 	}
 

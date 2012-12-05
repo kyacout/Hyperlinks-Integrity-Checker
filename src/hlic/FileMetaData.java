@@ -11,4 +11,8 @@ public class FileMetaData {
 		this.linksVaild = true;
 		this.numberOfOcc = 1;
 	}
+	
+	public void increaseOcc(){
+		this.numberOfOcc++;
+	}
 }
