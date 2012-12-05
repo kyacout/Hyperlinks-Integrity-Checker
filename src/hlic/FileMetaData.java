@@ -6,8 +6,9 @@ public class FileMetaData {
 	private int numberOfOcc;
 	
 	
-	public FileMetaData(boolean v, boolean l, int n){
+	public FileMetaData(boolean v){
 		this.valid = v;
-		
+		this.linksVaild = true;
+		this.numberOfOcc = 1;
 	}
 }
