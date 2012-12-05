@@ -4,15 +4,15 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Engin {
+public class Engine {
 	Queue<Node> q =  new LinkedList<Node>();
-	Engin singleton = null;
+	Engine singleton = null;
 	
 //	HashMap<String, V>
 	
-	public Engin getInstance(){
+	public Engine getInstance(){
 		if(singleton == null)
-			return singleton = new Engin();
+			return singleton = new Engine();
 		else
 			return singleton;
 	}
@@ -21,7 +21,7 @@ public class Engin {
 		return q.poll();
 	}
 	
-	public void addChilderns(LinkedList<String> childern, int depth, String parent, FileMetaData parentData){
+	public void addChilderns(LinkedList<String> childern, int depth, String parent, boolean v){
 		
 	}
 
