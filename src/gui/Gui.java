@@ -1,5 +1,7 @@
 package gui;
 
+import hlic.Engine;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -16,14 +18,16 @@ import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.Dimension;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class Gui extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField textField_url;
+	private JTextField textField_noOfDocs;
+	private JTextField textField_linkDepth;
 
 	/**
 	 * Launch the application.
@@ -61,20 +65,26 @@ public class Gui extends JFrame {
 		
 		JLabel lblUrl = new JLabel("Url:");
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		textField_url = new JTextField();
+		textField_url.setColumns(10);
 		
 		JLabel lblNumberOfDocuments = new JLabel("Number Of Documents:");
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
+		textField_noOfDocs = new JTextField();
+		textField_noOfDocs.setColumns(10);
 		
 		JLabel lblLinkDepth = new JLabel("Link Depth:");
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
+		textField_linkDepth = new JTextField();
+		textField_linkDepth.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Excute");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Engine.getInstance(textField_url.getText(),
+						Integer.parseInt(textField_linkDepth.getText()), Integer.parseInt(textField_noOfDocs.getText()));
+			}
+		});
 
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
@@ -85,15 +95,15 @@ public class Gui extends JFrame {
 						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(lblUrl)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField, GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE))
+							.addComponent(textField_url, GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(lblNumberOfDocuments)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField_1)
+							.addComponent(textField_noOfDocs)
 							.addGap(18)
 							.addComponent(lblLinkDepth)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE))
+							.addComponent(textField_linkDepth, GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE))
 						.addComponent(btnNewButton, Alignment.TRAILING))
 					.addContainerGap())
 		);
@@ -103,18 +113,18 @@ public class Gui extends JFrame {
 					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblUrl)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textField_url, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNumberOfDocuments)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textField_noOfDocs, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblLinkDepth)
-						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textField_linkDepth, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addComponent(btnNewButton)
 					.addContainerGap(154, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
-		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{textField, textField_1, textField_2, btnNewButton}));
+		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{textField_url, textField_noOfDocs, textField_linkDepth, btnNewButton}));
 	}
 }
