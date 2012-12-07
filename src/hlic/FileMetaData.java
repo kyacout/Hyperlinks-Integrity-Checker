@@ -4,6 +4,7 @@ public class FileMetaData {
 	private boolean valid;
 	private boolean linksVaild;
 	private int numberOfOcc;
+	private int fileSize;
 	
 	
 	public FileMetaData(boolean v){
