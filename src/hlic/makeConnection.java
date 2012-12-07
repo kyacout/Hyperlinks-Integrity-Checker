@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.LinkedList;
 
 import javax.swing.text.BadLocationException;
@@ -43,7 +42,7 @@ public class makeConnection {
 				// Parse the HTML.
 				kit.read(rd, doc, 0);
 			} catch (IOException e) {
-				Engine.getInstance().addChildern(links, currentNode, false);
+				//Engine.getInstance().addChildern(links, currentNode, false);
 			}
 
 			// Iterate through the elements
@@ -53,13 +52,13 @@ public class makeConnection {
 			while ((elem = it.next()) != null) {
 				MutableAttributeSet s = (MutableAttributeSet) elem
 						.getAttributes().getAttribute(HTML.Tag.A);
-
+				
 				if (s != null) {
-					System.out.println(s.getAttribute(HTML.Attribute.HREF));
+					links.add((String) s.getAttribute(HTML.Attribute.HREF));
 				}
 			}
 
-			Engine.getInstance().addChildern(links, currentNode, true);
+			//Engine.getInstance().addChildern(links, currentNode, true);
 		}
 	}
 

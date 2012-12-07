@@ -1,13 +1,30 @@
 package hlic;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 
 import javax.swing.text.BadLocationException;
 
 public class Engine {
+	
+	static class dupInfo{
+		String fileName;
+		int size;
+		public dupInfo(String f, int s){
+			this.fileName = f;
+			this.size = s;
+		}
+		@Override
+		public int hashCode() {
+			return (size + "-" + fileName).hashCode();
+		}
+		
+	}
 	private static Queue<Node> q;
 	private static Engine singleton = null;
 	private static HashMap<String, FileMetaData> h;
@@ -48,7 +65,7 @@ public class Engine {
 		return q.poll();
 	}
 
-	public void addChildern(LinkedList<String> childern, Node prevNode, boolean v) {
+	public void addChildern(LinkedList<String> childern, Node prevNode, boolean v,int fileSize) {
 		
 		String parent = prevNode.getUrl();
 		String grandParent = prevNode.getParent();
@@ -60,7 +77,7 @@ public class Engine {
 	
 			if (!h.containsKey(parent)) {
 	
-				h.put(parent, new FileMetaData(v));
+				h.put(parent, new FileMetaData(v,fileSize));
 				
 				if (!v && grandParent != null) {
 					h.get(grandParent).setLinksValid(false);
@@ -85,8 +102,47 @@ public class Engine {
 		return targetReach;
 	}
 	
-	static void generateReports(int currDepth){
-		File firstReport = new File(reportUrl + "\\ report1.txt");
-		File secondReport = new File(reportUrl + "\\ report2.txt");
+	static void generateReports(int currDepth) throws FileNotFoundException{
+        PrintWriter firstReport = new PrintWriter(reportUrl + "\\ report1.txt");
+        PrintWriter secondReport = new PrintWriter(reportUrl + "\\ report2.txt");
+		HashMap<dupInfo, LinkedList<String>> duplicates = new HashMap<dupInfo, LinkedList<String>>();
+		
+		for (Map.Entry<String, FileMetaData> entry : h.entrySet()) {
+		    String key = entry.getKey();
+		    FileMetaData value = entry.getValue();
+		    String [] sp;
+		    sp = key.split("\\\\");
+		    
+		    String vaild = value.getValid() == true ? "valid": "not vaild";
+		    String linksValid =  value.getLinksValid() == true ? "valid": "not vaild";
+		    String fileType = sp[sp.length - 1].split(".")[1];
+		    int fileSize = value.getFileSize();
+		    int numberOfOcc = value.getNumOfOcc();
+		    
+		    dupInfo newDup = new dupInfo(sp[sp.length - 1],fileSize);
+		    if(duplicates.containsKey(newDup)){
+		    	duplicates.get(newDup).add(key);
+		    }else{
+		    	LinkedList<String> newLi = new LinkedList<String>();
+		    	newLi.add(key);
+		    	duplicates.put(newDup, newLi);
+		    }
+		    
+		    firstReport.printf("%s: \n\tlink's validity: %s \n\tall-working links: %s \n\tfile type: %s \n\tnumber of occurnce: %d \n", key, vaild, linksValid, fileType, numberOfOcc);
+		}
+		
+		firstReport.printf("==================================================================================\n");
+		
+		for (Map.Entry<dupInfo,  LinkedList<String>> entry : duplicates.entrySet()) {
+			dupInfo key = entry.getKey();
+		    LinkedList<String> value = entry.getValue();
+		    
+		    firstReport.printf("%s :\n", key.fileName);
+		    
+		    for (String curr : value) {
+		    	firstReport.printf("\t%s\n", curr);
+			}
+		    
+		}
 	}
 }
