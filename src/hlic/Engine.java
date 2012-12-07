@@ -5,16 +5,20 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import javax.swing.text.BadLocationException;
+
 public class Engine {
 	private static Queue<Node> q;
 	private static Engine singleton = null;
-	private static HashMap<String, FileMetaData>h ;
+	private static HashMap<String, FileMetaData> h;
 	private static int maxDepth;
 	private static int maxDocment;
 	private static boolean targetReach;
 	private static String reportUrl;
 	
-	public synchronized static void analyzeFile(String url, String report, int maxD, int maxDoc) {
+	
+	public synchronized static void analyzeFile(String url, String report, int maxD, int maxDoc) 
+			throws BadLocationException {
 		if (singleton == null){
 			q = new LinkedList<Node>();
 			h = new HashMap<String, FileMetaData>();
@@ -22,9 +26,12 @@ public class Engine {
 			maxDepth = maxD;
 			maxDocment = maxDoc;
 			reportUrl = report;
-			Thread newThread = new Thread(new makeConnection());
-			newThread.run();
 			singleton = new Engine();
+			
+			makeConnection.run();
+			
+			for (int i = 0; i < 100; i++)
+				System.out.println("new thread i:" + i);
 		}
 		else
 			throw new ExceptionInInitializerError();
@@ -81,11 +88,5 @@ public class Engine {
 	static void generateReports(int currDepth){
 		File firstReport = new File(reportUrl + "\\ report1.txt");
 		File secondReport = new File(reportUrl + "\\ report2.txt");
-		
-		for (HashMap.Entry<String, FileMetaData> entry : h.entrySet()) {
-		    String key = entry.getKey();
-		    Object value = entry.getValue();
-		    // ...
-		}
 	}
 }
